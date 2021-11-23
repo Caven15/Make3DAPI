@@ -1,3 +1,7 @@
+using Make3D.BLL.Interfaces;
+using Make3D.BLL.Services;
+using Make3D.DAL.Interfaces;
+using Make3D.DAL.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,9 +15,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tools.Connection;
 
 namespace Make3D.API
 {
+    // 1 => config de la connnection string
+    // 2 => injection de dépendance repository (DAL)
+    // 3 => injection de dépendance Service (BLL)
+    // 4 => en fin de  mise en place du token manager
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -28,10 +37,20 @@ namespace Make3D.API
         {
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Make3D.API", Version = "v1" });
             });
+
+            // Singletons
+            services.AddSingleton(sp => new Connection(Configuration.GetConnectionString("default")));
+
+            // Repositories
+            services.AddScoped<IUtilisateurRepository, UtilisateurRepository>();
+
+            // Services
+            services.AddScoped<IUtilisateurService, UtilisateurService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

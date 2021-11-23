@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Make3D.DAL.Interfaces
 {
-    public interface IUtilisatreurRepository
+    public interface IUtilisateurRepository
     {
         void RegisterUtilisateur(UtilisateurData data);
     }

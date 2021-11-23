@@ -9,7 +9,7 @@ using Tools.Connection;
 
 namespace Make3D.DAL.Repositories
 {
-    public class UtilisateurRepository : IUtilisatreurRepository
+    public class UtilisateurRepository : IUtilisateurRepository
     {
         private readonly Connection _connection;
 

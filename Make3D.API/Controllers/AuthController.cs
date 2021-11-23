@@ -1,4 +1,6 @@
-﻿using Make3D.BLL.Interfaces;
+﻿using Make3D.API.Mapper;
+using Make3D.API.Models.Forms.Utilisateur;
+using Make3D.BLL.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,6 +19,16 @@ namespace Make3D.API.Controllers
         public AuthController(IUtilisateurService utilisateurService)
         {
             _utilisateurService = utilisateurService;
+        }
+
+        [HttpPost(nameof(Register))]
+        public IActionResult Register(UtilisateurRegisterForm form)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            _utilisateurService.RegisterUtilisateur(form.ApiToBll());
+            return Ok();
         }
     }
 }

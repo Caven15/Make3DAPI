@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Make3D.BLL.Services
 {
-    class UtilisateurService : IUtilisateurService
+    public class UtilisateurService : IUtilisateurService
     {
-        private readonly IUtilisatreurRepository _utilisatreurRepository;
+        private readonly IUtilisateurRepository _utilisatreurRepository;
 
-        public UtilisateurService(IUtilisatreurRepository utilisatreurRepository)
+        public UtilisateurService(IUtilisateurRepository utilisatreurRepository)
         {
             _utilisatreurRepository = utilisatreurRepository;
         }

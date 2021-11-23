@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DB_Make3D_Project\DB_Make3D_Project.sqlproj" />
     <ProjectReference Include="..\Tools\Tools.csproj" />
   </ItemGroup>
 
