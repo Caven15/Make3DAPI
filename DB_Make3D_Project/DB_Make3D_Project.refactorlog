@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="004ccefe-06ff-4ada-8c4c-d3feb51ebace" ChangeDateTime="11/22/2021 10:43:47">
+    <Property Name="ElementName" Value="[dbo].[Utilisateur].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Utilisateur]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id_utilisateur" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2928df83-ef42-42e3-8dd5-7fcb576eb309" ChangeDateTime="11/22/2021 10:47:42">
+    <Property Name="ElementName" Value="[dbo].[Article].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Article]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id_" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c6ac4760-081f-45db-9644-e9ee82c0403f" ChangeDateTime="11/22/2021 10:47:49">
+    <Property Name="ElementName" Value="[dbo].[Article].[Id_]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Article]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id_article" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="acd02e25-1ab9-457a-9c07-1584df965fe9" ChangeDateTime="11/22/2021 10:49:51">
+    <Property Name="ElementName" Value="[dbo].[Fichier].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Fichier]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id_fichier" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="09f15348-3f75-4d53-b2fe-d41300aae108" ChangeDateTime="11/22/2021 11:46:59">
+    <Property Name="ElementName" Value="[dbo].[Message].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Message]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id_message" />
+  </Operation>
+</Operations>
