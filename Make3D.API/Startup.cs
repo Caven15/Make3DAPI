@@ -1,3 +1,4 @@
+using Make3D.API.Infrastructure;
 using Make3D.BLL.Interfaces;
 using Make3D.BLL.Services;
 using Make3D.DAL.Interfaces;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,19 +18,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tools.Connection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Make3D.API
 {
     // 1 => config de la connnection string
     // 2 => injection de dépendance repository (DAL)
     // 3 => injection de dépendance Service (BLL)
-    // 4 => en fin de  mise en place du token manager
+    // 4 => en fin de mise en place du token manager
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+
+
 
         public IConfiguration Configuration { get; }
 
@@ -37,10 +43,59 @@ namespace Make3D.API
         {
 
             services.AddControllers();
-
+            services.AddSingleton<TokenManager>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Make3D.API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n" +
+                                "Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\n" +
+                                "Example: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+
+                });
+
+                OpenApiSecurityScheme openApiSecurityScheme = new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    },
+                    Scheme = "oauth2",
+                    Name = "Bearer",
+                    In = ParameterLocation.Header
+                };
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    //Défini une paire de clé valeur au niveau du dictionnaire
+                    [openApiSecurityScheme] = new List<string>()
+                });
+
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsConnected", policy => policy.RequireAuthenticatedUser());
+            });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(TokenManager.secret)),
+                    ValidateIssuer = true,
+                    ValidIssuer = TokenManager.myIssuer,
+                    ValidateAudience = true,
+                    ValidAudience = TokenManager.myAudience,
+                };
             });
 
             // Singletons
@@ -67,6 +122,7 @@ namespace Make3D.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

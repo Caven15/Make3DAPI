@@ -10,5 +10,9 @@ namespace Make3D.DAL.Interfaces
     public interface IUtilisateurRepository
     {
         void RegisterUtilisateur(UtilisateurData data);
+
+        UtilisateurData LoginUtilisateur(string email, string password);
+
+        UtilisateurData GetUtilisateurById(int id);
     }
 }

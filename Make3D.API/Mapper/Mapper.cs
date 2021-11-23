@@ -22,11 +22,23 @@ namespace Make3D.API.Mapper
             };
         }
 
+        internal static UtilisateurViewModel BllToApi(this UtilisateurModel model)
+        {
+            return new UtilisateurViewModel
+            {
+               Id = model.Id,
+               Nom = model.Nom,
+               Prenom = model.Prenom,
+               Email = model.Email,
+               DateNaissance = model.DateNaissance
+            };
+        }
+
         internal static UtilisateurViewModel BllToApî(this UtilisateurModel model)
         {
             return new UtilisateurViewModel()
             {
-                Id_utilisateur = model.Id_utilisateur,
+                Id = model.Id,
                 Nom = model.Nom,
                 Prenom = model.Prenom,
                 Email = model.Email,

@@ -16,7 +16,7 @@ namespace Make3D.BLL.Mapper
         {
             return new UtilisateurData()
             {
-                Id_utilisateur = model.Id_utilisateur,
+                Id = model.Id,
                 Nom = model.Nom,
                 Prenom = model.Prenom,
                 Email = model.Email,
@@ -28,9 +28,10 @@ namespace Make3D.BLL.Mapper
 
         internal static UtilisateurModel DalToBll(this UtilisateurData data)
         {
+            if (data is null) return null;
             return new UtilisateurModel()
             {
-                Id_utilisateur = data.Id_utilisateur,
+                Id = data.Id,
                 Nom = data.Nom,
                 Prenom = data.Prenom,
                 Email = data.Email,

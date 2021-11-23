@@ -1,5 +1,6 @@
 ﻿using Make3D.DAL.Data;
 using Make3D.DAL.Interfaces;
+using Make3D.DAL.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Make3D.DAL.Repositories
         {
             _connection = connection;
         }
-        
+
         public void RegisterUtilisateur(UtilisateurData data)
         {
             Command command = new Command("spUtilisateurRegister", true);
@@ -27,6 +28,22 @@ namespace Make3D.DAL.Repositories
             command.AddParameter("DateNaissance", data.DateNaissance);
             command.AddParameter("Password", data.Password);
             _connection.ExecuteNonQuery(command);
+        }
+
+        public UtilisateurData LoginUtilisateur(string email, string password)
+        {
+            Command command = new Command("spUtilisateurLogin", true);
+            command.AddParameter("Email", email);
+            command.AddParameter("Password", password);
+            return _connection.ExecuteReader(command, er => er.DbToUtilisateur()).SingleOrDefault();
+        }
+
+        public UtilisateurData GetUtilisateurById(int id)
+        {
+            Command command = new Command("spGetUtilisateurById", true);
+            command.AddParameter("Id", id);
+            return _connection.ExecuteReader(command, er => er.DbToUtilisateur()).SingleOrDefault();
+
         }
     }
 }

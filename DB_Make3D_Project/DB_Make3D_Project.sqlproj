@@ -63,6 +63,7 @@
     <Folder Include="Programability\Functions" />
     <Folder Include="Tables\mtm" />
     <Folder Include="Programability\Procedures\spUtilisateur" />
+    <Folder Include="Programability\Procedures\spAuthentification" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Utilisateur.sql" />
@@ -75,10 +76,9 @@
     <Build Include="Tables\mtm\Comentaire_article.sql" />
     <Build Include="Tables\mtm\Bloquage_article.sql" />
     <Build Include="Programability\Functions\fHasher.sql" />
-    <Build Include="Programability\Procedures\spUtilisateur\spUtilisateurRegister.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <RefactorLog Include="DB_Make3D_Project.refactorlog" />
+    <Build Include="Programability\Procedures\spAuthentification\spUtilisateurRegister.sql" />
+    <Build Include="Programability\Procedures\spAuthentification\spUtilisateurLogin.sql" />
+    <Build Include="Programability\Procedures\spUtilisateur\spGetUtilisateurById.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DB_Make3D_Project.publish.xml" />

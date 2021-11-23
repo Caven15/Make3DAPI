@@ -4,6 +4,6 @@
 	[Id_article] INT NOT NULL,
 	[Commentaire] NVARCHAR(250) NOT NULL, 
 
-    CONSTRAINT [FK_Id_utilisateur_CO] FOREIGN KEY ([Id_utilisateur]) REFERENCES [Utilisateur]([Id_utilisateur]),
-    CONSTRAINT [FK_Id_article_CO] FOREIGN KEY ([Id_article]) REFERENCES [Article]([Id_article])
+    CONSTRAINT [FK_Id_utilisateur_CO] FOREIGN KEY ([Id_utilisateur]) REFERENCES [Utilisateur]([Id]),
+    CONSTRAINT [FK_Id_article_CO] FOREIGN KEY ([Id_article]) REFERENCES [Article]([Id])
 )

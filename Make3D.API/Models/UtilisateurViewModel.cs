@@ -7,11 +7,10 @@ namespace Make3D.API.Models
 {
     public class UtilisateurViewModel
     {
-        public int Id_utilisateur { get; set; }
+        public int Id { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public string Email { get; set; }
         public DateTime DateNaissance { get; set; }
-        public string Password { get; set; }
     }
 }

@@ -12,16 +12,26 @@ namespace Make3D.BLL.Services
 {
     public class UtilisateurService : IUtilisateurService
     {
-        private readonly IUtilisateurRepository _utilisatreurRepository;
+        private readonly IUtilisateurRepository _utilisateurRepository;
 
         public UtilisateurService(IUtilisateurRepository utilisatreurRepository)
         {
-            _utilisatreurRepository = utilisatreurRepository;
+            _utilisateurRepository = utilisatreurRepository;
         }
 
         public void RegisterUtilisateur(UtilisateurModel model)
         {
-            _utilisatreurRepository.RegisterUtilisateur(model.BllToDal());
+            _utilisateurRepository.RegisterUtilisateur(model.BllToDal());
+        }
+
+        public UtilisateurModel LoginUtilisateur(string email, string password)
+        {
+            return _utilisateurRepository.LoginUtilisateur(email, password)?.DalToBll();
+        }
+
+        public UtilisateurModel GetUtilisateurById(int id)
+        {
+            return _utilisateurRepository.GetUtilisateurById(id).DalToBll();
         }
     }
 }

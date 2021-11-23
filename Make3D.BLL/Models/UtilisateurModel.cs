@@ -8,7 +8,7 @@ namespace Make3D.BLL.Models
 {
     public class UtilisateurModel
     {
-        public int Id_utilisateur { get; set; }
+        public int Id { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public string Email { get; set; }
