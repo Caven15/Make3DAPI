@@ -65,6 +65,9 @@
     <Folder Include="Programability\Procedures\spUtilisateur" />
     <Folder Include="Programability\Procedures\spAuthentification" />
     <Folder Include="Programability\Procedures\spArticle" />
+    <Folder Include="Programability\Trigger" />
+    <Folder Include="Programability\Trigger\Bloquage_article" />
+    <Folder Include="Programability\Trigger\Signalement_article" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Utilisateur.sql" />
@@ -82,8 +85,21 @@
     <Build Include="Programability\Procedures\spUtilisateur\spGetUtilisateurById.sql" />
     <Build Include="Programability\Procedures\spArticle\spArticleGetAll.sql" />
     <Build Include="Programability\Procedures\spArticle\spArticleCreate.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleGetAllByUserId.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleGetById.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleUpdate.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleDelete.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleDesignaler.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleEstSignale.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleEstSignaleParUserId.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleSignalement.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleDebloquer.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleEstBloquer.sql" />
+    <Build Include="Programability\Trigger\Bloquage_article\trBloquage_articleOnInsert.sql" />
+    <Build Include="Programability\Trigger\Signalement_article\trSignalement_articleInsteadOfInsert.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DB_Make3D_Project.publish.xml" />
+    <None Include="Programability\Procedures\spArticle\spArticleBloquer.sql" />
   </ItemGroup>
 </Project>

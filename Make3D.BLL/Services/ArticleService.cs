@@ -20,7 +20,7 @@ namespace Make3D.BLL.Services
             _articleRepository = articleRepository;
         }
         
-        #region Récupération des articles
+        #region Récupération
         public IEnumerable<ArticleModel> GetAll()
         {
             return _articleRepository.GetAll().Select(a => a.DalToBll()); // dr pour data reader
@@ -28,16 +28,16 @@ namespace Make3D.BLL.Services
 
         public IEnumerable<ArticleModel> GetAllByUserId(int id)
         {
-            throw new NotImplementedException();
+            return _articleRepository.GetAllByUserId(id).Select(a => a.DalToBll());
         }
 
         public ArticleModel GetById(int id)
         {
-            throw new NotImplementedException();
+            return _articleRepository.GetById(id).DalToBll();
         }
         #endregion
 
-        #region Création / Modification / Suppression => article
+        #region Création / Modification / Suppression
 
         public void Create(ArticleModel entity)
         {
@@ -46,43 +46,55 @@ namespace Make3D.BLL.Services
 
         public void Update(int id, ArticleModel entity)
         {
-            throw new NotImplementedException();
+            _articleRepository.Update(id, entity.BllToDal());
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _articleRepository.Delete(id);
         }
         #endregion
 
+        #region Signalement
+        public void Designaler(int articleId, int designaleurId)
+        {
+            _articleRepository.Designaler(articleId, designaleurId);
+        }
+
+        public bool EstSignale(int articleId)
+        {
+            return _articleRepository.EstSignale(articleId);
+        }
+
+        public bool EstSignaleParUserId(int articleId, int signaleurId)
+        {
+            return _articleRepository.EstSignaleParUserId(articleId, signaleurId);
+        }
+
+        public void Signalement(int articleId, int signaleurId)
+        {
+            _articleRepository.Signalement(articleId, signaleurId);
+        }
+        #endregion
+
+        #region Bloquage
+
         public void Bloquer(int articleId, int bloqeurId, string motivation)
         {
-            throw new NotImplementedException();
+            _articleRepository.Bloquer(articleId, bloqeurId, motivation);
         }
 
         public void Debloquer(int articleId, int debloqeurId)
         {
-            throw new NotImplementedException();
+            _articleRepository.Debloquer(articleId, debloqeurId);
         }
 
-        public void Designaler(int articleId, int designaleurId)
+        public bool EstBloquer(int articleId)
         {
-            throw new NotImplementedException();
+            return _articleRepository.EstBloquer(articleId);
         }
 
-        public bool estSignale(int articleId)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
-        public bool estSignaleParUserId(int articleId, int signaleurId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Signaler(int articleId, int signaleurId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

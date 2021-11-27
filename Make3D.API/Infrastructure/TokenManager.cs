@@ -30,6 +30,7 @@ namespace Make3D.API.Infrastructure
                 new Claim(ClaimTypes.Sid, user.Id.ToString()),
                 new Claim(ClaimTypes.GivenName, $"{user.Nom} {user.Prenom}"),
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim("IsAdmin", user.IsAdmin.ToString()),
                 new Claim(ClaimTypes.Role, user.GetType().Name)
             };
 

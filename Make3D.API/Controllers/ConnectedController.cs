@@ -14,5 +14,10 @@ namespace Make3D.API.Controllers
         {
             return int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value);
         }
+
+        protected bool? IsAdminConnectedUser()
+        {
+            return bool.Parse(User.FindFirst("IsAdmin")?.Value);
+        }
     }
 }

@@ -21,12 +21,12 @@ namespace Make3D.BLL.Interfaces
 
         void Delete(int id);// : supprimer l'article dont  l'ID est  id
 
-        void Signaler(int articleId, int signaleurId);// : signaler un article
+        void Signalement(int articleId, int signaleurId);// : signaler un article
 
-        bool estSignale(int articleId);// : vérifier si l'article articleId est signal
+        bool EstSignale(int articleId);// : vérifier si l'article articleId est signal
                                        // SQL ==> SELECT COUNT(*) FROM [Signalement_article] WHERE Id_article = @Id_article;
                                        // C#  ==> return (int)_connexion.ExecuteScalar(command) > 0;
-        bool estSignaleParUserId(int articleId, int signaleurId);// : vérifier si l'article articleId est signalé par l'utilisateur signaleurId
+        bool EstSignaleParUserId(int articleId, int signaleurId);// : vérifier si l'article articleId est signalé par l'utilisateur signaleurId
                                                                  // SQL ==> SELECT COUNT(*) FROM [Signalement_article] WHERE Id_article = @Id_article AND Id_utilisateur = @Id_utilisateur;
 
         // Les opérations d'administrations
@@ -35,5 +35,7 @@ namespace Make3D.BLL.Interfaces
         void Bloquer(int articleId, int bloqeurId, string motivation);// : bloquer un article
 
         void Debloquer(int articleId, int debloqeurId);// : débloquer un article
+
+        bool EstBloquer(int articleId);// ferifie si l'article est bloquer 
     }
 }

@@ -27,12 +27,16 @@ namespace Make3D.DAL.Repositories
 
         public IEnumerable<ArticleData> GetAllByUserId(int id)
         {
-            throw new NotImplementedException();
+            Command command = new Command("spArticleGetAllByUserId", true);
+            command.AddParameter("Id_utilisateur", id);
+            return _connection.ExecuteReader(command, dr => dr.DbToArticle());
         }
 
         public ArticleData GetById(int id)
         {
-            throw new NotImplementedException();
+            Command command = new Command("spArticleGetById", true);
+            command.AddParameter("Id", id);
+            return _connection.ExecuteReader(command, dr => dr.DbToArticle()).SingleOrDefault();
         }
         #endregion
 
@@ -48,52 +52,82 @@ namespace Make3D.DAL.Repositories
 
         public void Update(int id, ArticleData entity)
         {
-            throw new NotImplementedException();
+            Command command = new Command("spArticleUpdate", true);
+            command.AddParameter("Id", id);
+            command.AddParameter("Nom", entity.Nom);
+            command.AddParameter("Description", entity.Description);
+            _connection.ExecuteNonQuery(command);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            Command command = new Command("spArticleDelete", true);
+            command.AddParameter("Id", id);
+            _connection.ExecuteNonQuery(command);
         }
         #endregion
 
-
-
-        public void Bloquer(int articleId, int bloqeurId, string motivation)
-        {
-            throw new NotImplementedException();
-        }
-
-        
-        public void Debloquer(int articleId, int debloqeurId)
-        {
-            throw new NotImplementedException();
-        }
-
-        
+        #region Signalements des articles
 
         public void Designaler(int articleId, int designaleurId)
         {
-            throw new NotImplementedException();
+            Command command = new Command("spArticleDesignaler", true);
+            command.AddParameter("Id_article", articleId);
+            command.AddParameter("Id_utilisateur", designaleurId);
+            _connection.ExecuteNonQuery(command);
         }
 
-        public bool estSignale(int articleId)
+        public bool EstSignale(int articleId)
         {
-            throw new NotImplementedException();
+            Command command = new Command("spArticleEstSignale", true);
+            command.AddParameter("Id_article", articleId);
+            return (int)_connection.ExecuteScalar(command) > 0;
         }
 
-        public bool estSignaleParUserId(int articleId, int signaleurId)
+        public bool EstSignaleParUserId(int articleId, int signaleurId)
         {
-            throw new NotImplementedException();
+            Command command = new Command("spArticleEstSignaleParUserId", true);
+            command.AddParameter("Id_article", articleId);
+            command.AddParameter("Id_utilisateur", signaleurId);
+            return (int)_connection.ExecuteScalar(command) > 0;
         }
 
-       
-
-        public void Signaler(int articleId, int signaleurId)
+        public void Signalement(int articleId, int signaleurId)
         {
-            throw new NotImplementedException();
+            Command command = new Command("spArticleSignalement", true);
+            command.AddParameter("Id_article", articleId);
+            command.AddParameter("Id_utilisateur", signaleurId);
+            _connection.ExecuteNonQuery(command);
         }
 
-        
+        #endregion
+
+        #region Bloquage
+
+        public void Bloquer(int articleId, int bloqeurId, string motivation)
+        {
+            Command command = new Command("spArticleBloquer", true);
+            command.AddParameter("Id_article", articleId);
+            command.AddParameter("Id_utilisateur", bloqeurId);
+            command.AddParameter("Motivation", motivation);
+            _connection.ExecuteNonQuery(command);
+        }
+
+        public void Debloquer(int articleId, int debloqeurId)
+        {
+            Command command = new Command("spArticleDebloquer", true);
+            command.AddParameter("Id_article", articleId);
+            command.AddParameter("Id_utilisateur", debloqeurId);
+            _connection.ExecuteNonQuery(command);
+        }
+
+        public bool EstBloquer(int articleId)
+        {
+            Command command = new Command("spArticleEstBloquer", true);
+            command.AddParameter("Id_article", articleId);
+            return (int)_connection.ExecuteScalar(command) > 0;
+        }
+        #endregion
+
     }
 }
