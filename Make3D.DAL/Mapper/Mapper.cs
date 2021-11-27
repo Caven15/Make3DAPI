@@ -10,8 +10,7 @@ namespace Make3D.DAL.Mapper
 {
     internal static class Mapper
     {
-        /*--------------------------------------* Utilisateur *----------------------------------------*/
-
+        #region Utilisateur
         internal static UtilisateurData DbToUtilisateur(this IDataRecord record)
         {
             return new UtilisateurData()
@@ -24,5 +23,19 @@ namespace Make3D.DAL.Mapper
                 IsAdmin = (bool)record["IsAdmin"]
             };
         }
+        #endregion
+
+        #region Article
+        internal static ArticleData DbToArticle(this IDataRecord record)
+        {
+            return new ArticleData()
+            {
+                Id = (int)record["Id"],
+                Nom = (string)record["Nom"],
+                Description = (string)record["Description"],
+                Id_utilisateur = (int)record["Id_utilisateur"]
+            };
+        }
+        #endregion
     }
 }

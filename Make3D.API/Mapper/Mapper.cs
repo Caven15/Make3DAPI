@@ -1,4 +1,5 @@
 ﻿using Make3D.API.Models;
+using Make3D.API.Models.Forms.Article;
 using Make3D.API.Models.Forms.Utilisateur;
 using Make3D.BLL.Models;
 using System;
@@ -10,6 +11,8 @@ namespace Make3D.API.Mapper
 {
     public static class Mapper
     {
+        #region Utilisateur
+
         internal static UtilisateurModel ApiToBll(this UtilisateurRegisterForm form)
         {
             return new UtilisateurModel()
@@ -26,11 +29,11 @@ namespace Make3D.API.Mapper
         {
             return new UtilisateurViewModel
             {
-               Id = model.Id,
-               Nom = model.Nom,
-               Prenom = model.Prenom,
-               Email = model.Email,
-               DateNaissance = model.DateNaissance
+                Id = model.Id,
+                Nom = model.Nom,
+                Prenom = model.Prenom,
+                Email = model.Email,
+                DateNaissance = model.DateNaissance
             };
         }
 
@@ -45,5 +48,10 @@ namespace Make3D.API.Mapper
                 DateNaissance = model.DateNaissance,
             };
         }
+        #endregion
+
+        #region Article
+
+        #endregion
     }
 }

@@ -2,6 +2,7 @@
 using Make3D.DAL.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,7 @@ namespace Make3D.BLL.Mapper
 {
     public static class Mapper
     {
-        /*--------------------------------------* Utilisateur *----------------------------------------*/
-
+        #region Utilisateur
         internal static UtilisateurData BllToDal(this UtilisateurModel model)
         {
             return new UtilisateurData()
@@ -39,5 +39,30 @@ namespace Make3D.BLL.Mapper
                 IsAdmin = data.IsAdmin
             };
         }
+        #endregion
+
+        #region Article
+        internal static ArticleData BllToDal(this ArticleModel model)
+        {
+            return new ArticleData()
+            {
+                Id = model.Id,
+                Nom = model.Nom,
+                Description = model.Description,
+                Id_utilisateur = model.Id_utilisateur
+            };
+        }
+
+        internal static ArticleModel DalToBll(this ArticleData data)
+        {
+            return new ArticleModel()
+            {
+                Id = data.Id,
+                Nom = data.Nom,
+                Description = data.Description,
+                Id_utilisateur = data.Id_utilisateur
+            };
+        }
+        #endregion
     }
 }

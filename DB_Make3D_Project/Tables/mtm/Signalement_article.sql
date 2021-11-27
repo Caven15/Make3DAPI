@@ -4,5 +4,6 @@
 	[Id_article] INT NOT NULL
 
     CONSTRAINT [FK_Id_utilisateur_SI] FOREIGN KEY ([Id_utilisateur]) REFERENCES [Utilisateur]([Id]),
-	CONSTRAINT [FK_Id_article_SI] FOREIGN KEY ([Id_article]) REFERENCES [Article]([Id])
+	CONSTRAINT [FK_Id_article_SI] FOREIGN KEY ([Id_article]) REFERENCES [Article]([Id]), 
+    CONSTRAINT [AK_Signalement_article] UNIQUE ([Id_utilisateur],[Id_article])
 )

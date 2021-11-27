@@ -4,5 +4,6 @@
 	[Id_utilisateur_Cible] INT NOT NULL
 
     CONSTRAINT [FK_Id_utilisateursSource_BLU] FOREIGN KEY ([Id_utilisateur_Source]) REFERENCES [Utilisateur]([Id]),
-	CONSTRAINT [FK_Id_utilisateursCible_BLU] FOREIGN KEY ([Id_utilisateur_Cible]) REFERENCES [Utilisateur]([Id])
+	CONSTRAINT [FK_Id_utilisateursCible_BLU] FOREIGN KEY ([Id_utilisateur_Cible]) REFERENCES [Utilisateur]([Id]), 
+    CONSTRAINT [AK_Bloquage_user] UNIQUE ([Id_utilisateur_Source], [Id_utilisateur_Cible])
 )

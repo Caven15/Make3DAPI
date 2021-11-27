@@ -41,7 +41,7 @@ namespace Make3D.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
             services.AddControllers();
             services.AddSingleton<TokenManager>();
             services.AddSwaggerGen(c =>
@@ -103,14 +103,26 @@ namespace Make3D.API
 
             // Repositories
             services.AddScoped<IUtilisateurRepository, UtilisateurRepository>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
 
             // Services
             services.AddScoped<IUtilisateurService, UtilisateurService>();
+            services.AddScoped<IArticleService, ArticleService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // ajout cors permettant n'importe quel site d'accéder à l'API
+            app.UseCors("MyPolicy");
+            /*
+            // ajout d'une origine en indiquant son nom de domaine 
+            app.UseCors(options =>
+            {
+                options.WithOrigins("http://http://localhost:4200").AllowAnyMethod();
+                // options.WithOrigins("mon autre site...").AllowAnyMethod();
+            });
+            */
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

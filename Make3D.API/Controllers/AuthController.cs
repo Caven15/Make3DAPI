@@ -1,5 +1,6 @@
 ﻿using Make3D.API.Infrastructure;
 using Make3D.API.Mapper;
+using Make3D.API.Models;
 using Make3D.API.Models.Forms.Utilisateur;
 using Make3D.BLL.Interfaces;
 using Make3D.BLL.Models;
@@ -48,12 +49,13 @@ namespace Make3D.API.Controllers
                 string nom = currentuser.Nom is null ? string.Empty : currentuser.Nom;
                 string prenom = currentuser.Prenom is null ? string.Empty : currentuser.Prenom;
                 string email = currentuser.Email is null ? string.Empty : currentuser.Email;
-                object utilisateur = new
+                UserWithToken utilisateur = new UserWithToken
                 {
                     Id = currentuser.Id,
                     Nom = currentuser.Nom,
                     Prenom = currentuser.Prenom,
                     Email = currentuser.Email,
+                    DateNaissance = currentuser.DateNaissance,
                     Token = _tokenManager.GenerateJWT(currentuser)
                 };
 

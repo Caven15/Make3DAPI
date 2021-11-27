@@ -64,6 +64,7 @@
     <Folder Include="Tables\mtm" />
     <Folder Include="Programability\Procedures\spUtilisateur" />
     <Folder Include="Programability\Procedures\spAuthentification" />
+    <Folder Include="Programability\Procedures\spArticle" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Utilisateur.sql" />
@@ -79,6 +80,8 @@
     <Build Include="Programability\Procedures\spAuthentification\spUtilisateurRegister.sql" />
     <Build Include="Programability\Procedures\spAuthentification\spUtilisateurLogin.sql" />
     <Build Include="Programability\Procedures\spUtilisateur\spGetUtilisateurById.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleGetAll.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleCreate.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DB_Make3D_Project.publish.xml" />

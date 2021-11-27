@@ -15,7 +15,7 @@ namespace Make3D.API.Controllers
     [Route("api/[controller]")]
     [Authorize("IsConnected")]
     [ApiController]
-    public class UtilisateurController : ControllerBase
+    public class UtilisateurController : ConnectedController
     {
         private readonly IUtilisateurService _utilisateurService;
 
@@ -25,13 +25,13 @@ namespace Make3D.API.Controllers
         }
         
 
-        [HttpGet]
-        public IActionResult GetUtilisateurById()
+        [HttpGet(nameof(GetOne))]
+        public IActionResult GetOne()
         {
             try
             {
                 int? userid = GetConnectedUserId();
-                if (userid is null) return Unauthorized();
+                // if (userid is null) return Unauthorized(); => a activer si on appelle pas authorize ([Authorize("IsConnected")])
                 UtilisateurViewModel utilisateur = _utilisateurService.GetUtilisateurById((int)userid).BllToApi();
                 if (utilisateur is null) return NotFound();
                 return Ok(utilisateur);
@@ -40,11 +40,6 @@ namespace Make3D.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-        }
-        
-        private int? GetConnectedUserId()
-        {
-            return int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value);
         }
     }
 }
