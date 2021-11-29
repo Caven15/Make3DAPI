@@ -68,6 +68,7 @@
     <Folder Include="Programability\Trigger" />
     <Folder Include="Programability\Trigger\Bloquage_article" />
     <Folder Include="Programability\Trigger\Signalement_article" />
+    <Folder Include="Programability\Trigger\Utilisateur" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Utilisateur.sql" />
@@ -97,9 +98,14 @@
     <Build Include="Programability\Procedures\spArticle\spArticleEstBloquer.sql" />
     <Build Include="Programability\Trigger\Bloquage_article\trBloquage_articleOnInsert.sql" />
     <Build Include="Programability\Trigger\Signalement_article\trSignalement_articleInsteadOfInsert.sql" />
+    <Build Include="Programability\Trigger\Utilisateur\trUtilisateurAfterInsert.sql" />
+    <Build Include="views\vArticleBloquer.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleGetAllSignaler.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleGetAllBloquer.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DB_Make3D_Project.publish.xml" />
-    <None Include="Programability\Procedures\spArticle\spArticleBloquer.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleBloquer.sql" />
+    <None Include="DB_Make3D_publication.publish.xml" />
+    <None Include="DB_Make3D_ecrasement.publish.publish.xml" />
   </ItemGroup>
 </Project>

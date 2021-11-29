@@ -69,6 +69,13 @@ namespace Make3D.DAL.Repositories
 
         #region Signalements des articles
 
+        // : Liste de tous les articles signalés
+        public IEnumerable<ArticleSignalerData> GetAllSignaler()
+        {
+            Command command = new Command("spArticleGetAllSignaler", true);
+            return _connection.ExecuteReader(command, dr => dr.DbToArticleSignaler());
+        }
+
         public void Designaler(int articleId, int designaleurId)
         {
             Command command = new Command("spArticleDesignaler", true);
@@ -104,6 +111,12 @@ namespace Make3D.DAL.Repositories
 
         #region Bloquage
 
+        public IEnumerable<ArticleBloquerData> GetAllBloquer()
+        {
+            Command command = new Command("spArticleGetAllBloquer", true);
+            return _connection.ExecuteReader(command, dr => dr.DbToArticleBloquer());
+        }
+
         public void Bloquer(int articleId, int bloqeurId, string motivation)
         {
             Command command = new Command("spArticleBloquer", true);
@@ -128,6 +141,5 @@ namespace Make3D.DAL.Repositories
             return (int)_connection.ExecuteScalar(command) > 0;
         }
         #endregion
-
     }
 }

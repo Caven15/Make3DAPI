@@ -34,14 +34,17 @@ namespace Make3D.API.Controllers
             return Ok(articles);
         }
 
-        [HttpGet("GetAllByUserId/{id}")]
+        // Obtenir tous les article créés par l'utilisateur {id}
+        // /api/Article/GetAllByUserId/{id}
+        [HttpGet("GetAllByUser/{id}")]
         public IActionResult GetAllByUserId(int id)
         {
             IEnumerable<ArticleModel> articles = _articleService.GetAllByUserId(id);
             return Ok(articles);
         }
 
-        [HttpGet("GetById/{id}")]
+        //
+        [HttpGet("{id}/Detail")]
         public IActionResult GetById(int id)
         {
             ArticleModel article = _articleService.GetById(id);
@@ -81,8 +84,9 @@ namespace Make3D.API.Controllers
 
         }
 
-        [HttpPut("Update/{id}")]
-        public IActionResult Update(int id, ArticleModel form)
+        // /api/Article/{id}/Update
+        [HttpPut("{id}/Update")]
+        public IActionResult Update(int id, ArticleUpdateForm form)
         {
             if (!ModelState.IsValid)
             {
@@ -114,7 +118,8 @@ namespace Make3D.API.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpDelete("Delete/{id}")]
+
+        [HttpDelete("{id}/Delete")]
         public IActionResult Delete(int id)
         {
             try
@@ -142,7 +147,7 @@ namespace Make3D.API.Controllers
 
         #region Signalements des articles
 
-        [HttpPut("Designaler/{id}")]
+        [HttpPut("{id}/Designaler")]
         public IActionResult Designaler(int id) // Id article
         {
             try
@@ -163,43 +168,43 @@ namespace Make3D.API.Controllers
             }
         }
 
-        [HttpGet("EstSignale/{id}")]
+        [HttpGet("{id}/EstSignale")]
         public IActionResult EstSignale(int id) // Id article
         {
             bool estSignale = _articleService.EstSignale(id);
             return Ok(estSignale);
         }
 
-        [HttpGet("EstSignaleParUserId/{articleId}/{signaleurId}")]
-        public IActionResult EstSignaleParUserId(int articleId, int signaleurId)
+        [HttpGet("{id}/EstSignalePar/{signaleurId}")]
+        public IActionResult EstSignaleParUserId(int id, int signaleurId)
         {
-            bool estSignale = _articleService.EstSignaleParUserId(articleId, signaleurId);
+            bool estSignale = _articleService.EstSignaleParUserId(id, signaleurId);
             return Ok(estSignale);
         }
 
-        [HttpGet("Signalement/{articleId}")]
-        public IActionResult Signalement(int articleId)
+        [HttpGet("{id}/Signalement")]
+        public IActionResult Signalement(int id)
         {
             int? signaleurId = GetConnectedUserId();
             if (signaleurId is null) return Unauthorized();// => a activer si on appelle pas authorize ([Authorize("IsConnected")])
             // Récupération de l'article
-            ArticleModel articleModel = _articleService.GetById(articleId);
-            // Si l'utilisateur connecté est le créateur de l'article
+            ArticleModel articleModel = _articleService.GetById(id);
+            // Si l'utilisateur connecté n'est pas le créateur de l'article
             if (signaleurId.Value != articleModel.Id_utilisateur)
             {
-                _articleService.Signalement(articleId, signaleurId.Value);
+                _articleService.Signalement(id, signaleurId.Value);
                 return Ok();
             }
             // Si l'utilisateur connecté n'est pas le créateur de l'article
-            return Unauthorized();
+            return BadRequest("id signaleur est différent de id utilisateur...");
         }
 
         #endregion
 
         #region Bloquage
 
-        [HttpPost("Bloquer/{articleId}")]
-        public IActionResult Bloquer(int articleId, ArticleBloquageForm form)
+        [HttpPost("{id}/Bloquer")]
+        public IActionResult Bloquer(int id, ArticleBloquageForm form)
         {
             try
             {
@@ -210,9 +215,9 @@ namespace Make3D.API.Controllers
                 // Si l'utilisateur connecté est un administrateur et que l'article n'est pas encore bloqué
                 if (IsAdminConnectedUser().HasValue // Si la valeur de IsAdmin existe
                     && IsAdminConnectedUser().Value // et si cette valeur est true (vraie)
-                    && !_articleService.EstBloquer(articleId)) //  et que l'article n'est pas encore bloqué
+                    && !_articleService.EstBloquer(id)) //  et que l'article n'est pas encore bloqué
                 {
-                    _articleService.Bloquer(articleId, bloqeurId.Value, form.Motivation);
+                    _articleService.Bloquer(id, bloqeurId.Value, form.Motivation);
                     return Ok();
                 }
                 // Si l'utilisateur connecté n'est pas le créateur de l'article
@@ -224,8 +229,8 @@ namespace Make3D.API.Controllers
             }
         }
 
-        [HttpGet("Debloquer/{articleId}")]
-        public IActionResult Debloquer(int articleId)
+        [HttpGet("{id}/Debloquer")]
+        public IActionResult Debloquer(int id)
         {
             try
             {
@@ -236,9 +241,9 @@ namespace Make3D.API.Controllers
                 // Si l'utilisateur connecté est un administrateur et que l'article est bloqué
                 if (IsAdminConnectedUser().HasValue // Si la valeur de IsAdmin existe
                     && IsAdminConnectedUser().Value // et si cette valeur est true (vraie)
-                    && _articleService.EstBloquer(articleId)) //  et que l'article est bloqué
+                    && _articleService.EstBloquer(id)) //  et que l'article est bloqué
                 {
-                    _articleService.Debloquer(articleId, bloqeurId.Value);
+                    _articleService.Debloquer(id, bloqeurId.Value);
                     return Ok();
                 }
                 // Si l'utilisateur connecté n'est pas le créateur de l'article
@@ -250,7 +255,7 @@ namespace Make3D.API.Controllers
             }
         }
 
-        [HttpGet("EstBloquer/{id}")]
+        [HttpGet("{id}/EstBloquer")]
         public IActionResult EstBloquer(int id) // Id article
         {
             bool estBloquer = _articleService.EstBloquer(id);

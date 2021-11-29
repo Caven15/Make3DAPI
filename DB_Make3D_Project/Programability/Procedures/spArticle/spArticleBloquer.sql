@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[spArticleBloquer]
-	@Id_utilisateur int ,
+	@Id_utilisateur int,
 	@Id_article int,
 	@Motivation NVARCHAR(200)
 AS

@@ -36,6 +36,25 @@ namespace Make3D.DAL.Mapper
                 Id_utilisateur = (int)record["Id_utilisateur"]
             };
         }
+
+        internal static ArticleSignalerData DbToArticleSignaler(this IDataRecord record)
+        {
+            return new ArticleSignalerData()
+            {
+                Id_article = (int)record["Id_article"],
+                Id_utilisateur = (int)record["Id_utilisateur"]
+            };
+        }
+
+        internal static ArticleBloquerData DbToArticleBloquer(this IDataRecord record)
+        {
+            return new ArticleBloquerData()
+            {
+                Id_article = (int)record["Id_article"],
+                Id_utilisateur = (int)record["Id_utilisateur"],
+                Motivation = (string)record["Motivation"]
+            };
+        }
         #endregion
     }
 }
