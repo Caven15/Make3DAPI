@@ -49,7 +49,9 @@ namespace Make3D.BLL.Mapper
                 Id = model.Id,
                 Nom = model.Nom,
                 Description = model.Description,
-                Id_utilisateur = model.Id_utilisateur
+                Id_utilisateur = model.Id_utilisateur,
+                Date_envoi = model.Date_envoi,
+                Date_modif = model.Date_modif
             };
         }
 
@@ -60,7 +62,39 @@ namespace Make3D.BLL.Mapper
                 Id = data.Id,
                 Nom = data.Nom,
                 Description = data.Description,
-                Id_utilisateur = data.Id_utilisateur
+                Id_utilisateur = data.Id_utilisateur,
+                Date_envoi = data.Date_envoi,
+                Date_modif = data.Date_modif
+
+            };
+        }
+        #endregion
+
+        #region Commentaire
+
+        internal static CommentaireData BllToDal(this CommentaireModel model)
+        {
+            return new CommentaireData()
+            {
+                Id = model.Id,
+                Id_article = model.Id_article,
+                Id_utilisateur = model.Id_utilisateur,
+                Commentaire = model.Commentaire,
+                Date_envoi = model.Date_envoi,
+                Date_modif = model.Date_modif
+            };
+        }
+
+        internal static CommentaireModel DalToBll(this CommentaireData data)
+        {
+            return new CommentaireModel()
+            {
+                Id = data.Id,
+                Id_article = data.Id_article,
+                Id_utilisateur = data.Id_utilisateur,
+                Commentaire = data.Commentaire,
+                Date_envoi = data.Date_envoi,
+                Date_modif = data.Date_modif
             };
         }
         #endregion

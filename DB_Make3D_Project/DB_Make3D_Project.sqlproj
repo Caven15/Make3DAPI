@@ -69,6 +69,7 @@
     <Folder Include="Programability\Trigger\Bloquage_article" />
     <Folder Include="Programability\Trigger\Signalement_article" />
     <Folder Include="Programability\Trigger\Utilisateur" />
+    <Folder Include="Programability\Procedures\spCommentaire" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Utilisateur.sql" />
@@ -102,6 +103,12 @@
     <Build Include="views\vArticleBloquer.sql" />
     <Build Include="Programability\Procedures\spArticle\spArticleGetAllSignaler.sql" />
     <Build Include="Programability\Procedures\spArticle\spArticleGetAllBloquer.sql" />
+    <Build Include="Programability\Procedures\spCommentaire\spCommentaireGetAll.sql" />
+    <Build Include="Programability\Procedures\spCommentaire\spCommentaireGetAllByArticleId.sql" />
+    <Build Include="Programability\Procedures\spCommentaire\spCommentaireGetById.sql" />
+    <Build Include="Programability\Procedures\spCommentaire\spCommentaireCreate.sql" />
+    <Build Include="Programability\Procedures\spCommentaire\spCommentaireUpdate.sql" />
+    <Build Include="Programability\Procedures\spCommentaire\spCommentaireDelete.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Programability\Procedures\spArticle\spArticleBloquer.sql" />

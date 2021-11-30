@@ -6,7 +6,8 @@ AS
 BEGIN
 	UPDATE [Article]
 	SET [Nom] = @Nom ,
-		[Description] = @Description 
-	WHERE Id = @Id
+		[Description] = @Description ,
+		Date_modif = GETDATE()
+	WHERE Id = @Id ;
 	RETURN 0
 END

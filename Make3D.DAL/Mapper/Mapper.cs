@@ -33,7 +33,9 @@ namespace Make3D.DAL.Mapper
                 Id = (int)record["Id"],
                 Nom = (string)record["Nom"],
                 Description = (string)record["Description"],
-                Id_utilisateur = (int)record["Id_utilisateur"]
+                Id_utilisateur = (int)record["Id_utilisateur"],
+                Date_envoi = (DateTime)record["Date_envoi"],
+                Date_modif = (DateTime)record["Date_modif"]
             };
         }
 
@@ -55,6 +57,22 @@ namespace Make3D.DAL.Mapper
                 Motivation = (string)record["Motivation"]
             };
         }
+        #endregion
+
+        #region Commentaire
+
+        internal static CommentaireData DbToCommentaire(this IDataRecord record)
+        {
+            return new CommentaireData()
+            {
+                Id_utilisateur = (int)record["Id_utilisateur"],
+                Id_article = (int)record["Id_article"],
+                Commentaire = (string)record["Commentaire"],
+                Date_envoi = (DateTime)record["Date_envoi"],
+                Date_modif = (DateTime)record["Date_modif"]
+            };
+        }
+
         #endregion
     }
 }

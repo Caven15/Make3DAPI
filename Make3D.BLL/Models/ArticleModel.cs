@@ -12,5 +12,7 @@ namespace Make3D.BLL.Models
         public string Nom { get; set; }
         public string Description { get; set; }
         public int Id_utilisateur { get; set; }
+        public DateTime Date_envoi { get; set; }
+        public DateTime Date_modif { get; set; }
     }
 }
