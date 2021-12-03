@@ -14,5 +14,6 @@ namespace Make3D.BLL.Models
         public int Id_utilisateur { get; set; }
         public DateTime Date_envoi { get; set; }
         public DateTime Date_modif { get; set; }
+        public string NomCreateur { get; set; }
     }
 }

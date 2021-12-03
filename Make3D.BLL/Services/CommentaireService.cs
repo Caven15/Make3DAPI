@@ -10,30 +10,32 @@ using System.Threading.Tasks;
 
 namespace Make3D.BLL.Services
 {
-    class CommentaireService : ICommentaireService
+    public class CommentaireService : ICommentaireService
     {
         private readonly ICommentaireRepository _commentaireRepository;
+        private readonly IUtilisateurService _utilisateurService;
 
-        public CommentaireService(ICommentaireRepository commentaireRepository)
+        public CommentaireService(ICommentaireRepository commentaireRepository, IUtilisateurService utilisateurService)
         {
             _commentaireRepository = commentaireRepository;
+            _utilisateurService = utilisateurService;
         }
 
         #region recupération
 
         public IEnumerable<CommentaireModel> GetAll()
         {
-            return _commentaireRepository.GetAll().Select(c => c.DalToBll());
+            return _commentaireRepository.GetAll().Select(c => c.DalToBll(_utilisateurService));
         }
 
         public IEnumerable<CommentaireModel> GetAllByArticleId(int id)
         {
-            return _commentaireRepository.GetAllByArticleId(id).Select(c => c.DalToBll());
+            return _commentaireRepository.GetAllByArticleId(id).Select(c => c.DalToBll(_utilisateurService));
         }
 
         public CommentaireModel GetById(int id)
         {
-            return _commentaireRepository.GetById(id)?.DalToBll();
+            return _commentaireRepository.GetById(id)?.DalToBll(_utilisateurService);
         }
 
         #endregion

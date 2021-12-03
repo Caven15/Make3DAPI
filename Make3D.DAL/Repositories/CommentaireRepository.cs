@@ -37,7 +37,7 @@ namespace Make3D.DAL.Repositories
         public CommentaireData GetById(int id)
         {
             Command command = new Command("spCommentaireGetById", true);
-            command.AddParameter("Id_article", id);
+            command.AddParameter("Id", id);
             return _connection.ExecuteReader(command, dr => dr.DbToCommentaire()).SingleOrDefault();
         }
 

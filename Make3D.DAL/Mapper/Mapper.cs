@@ -65,6 +65,7 @@ namespace Make3D.DAL.Mapper
         {
             return new CommentaireData()
             {
+                Id = (int)record["Id"],
                 Id_utilisateur = (int)record["Id_utilisateur"],
                 Id_article = (int)record["Id_article"],
                 Commentaire = (string)record["Commentaire"],

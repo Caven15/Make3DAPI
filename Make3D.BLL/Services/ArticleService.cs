@@ -14,26 +14,28 @@ namespace Make3D.BLL.Services
     public class ArticleService : IArticleService
     {
         private readonly IArticleRepository _articleRepository;
+        private readonly IUtilisateurService _utilisateurService;
 
-        public ArticleService(IArticleRepository articleRepository)
+        public ArticleService(IArticleRepository articleRepository, IUtilisateurService utilisateurService)
         {
             _articleRepository = articleRepository;
+            _utilisateurService = utilisateurService;
         }
         
         #region Récupération
-        public IEnumerable<ArticleModel> GetAll()
+        public IEnumerable<ArticleModel> GetAll() // service admin
         {
-            return _articleRepository.GetAll().Select(a => a.DalToBll()); // dr pour data reader
+            return _articleRepository.GetAll().Select(a => a.DalToBll(_utilisateurService)); // dr pour data reader
         }
 
-        public IEnumerable<ArticleModel> GetAllByUserId(int id)
+        public IEnumerable<ArticleModel> GetAllByUserId(int id) // service admin
         {
-            return _articleRepository.GetAllByUserId(id).Select(a => a.DalToBll());
+            return _articleRepository.GetAllByUserId(id).Select(a => a.DalToBll(_utilisateurService));
         }
 
-        public ArticleModel GetById(int id)
+        public ArticleModel GetById(int id) // service admin
         {
-            return _articleRepository.GetById(id).DalToBll();
+            return _articleRepository.GetById(id).DalToBll(_utilisateurService);
         }
         #endregion
 
@@ -56,17 +58,17 @@ namespace Make3D.BLL.Services
         #endregion
 
         #region Signalement
-        public void Designaler(int articleId, int designaleurId)
+        public void Designaler(int articleId, int designaleurId) // service admin
         {
             _articleRepository.Designaler(articleId, designaleurId);
         }
 
-        public bool EstSignale(int articleId)
+        public bool EstSignale(int articleId) // service admin
         {
             return _articleRepository.EstSignale(articleId);
         }
 
-        public bool EstSignaleParUserId(int articleId, int signaleurId)
+        public bool EstSignaleParUserId(int articleId, int signaleurId) // service admin
         {
             return _articleRepository.EstSignaleParUserId(articleId, signaleurId);
         }
@@ -79,17 +81,17 @@ namespace Make3D.BLL.Services
 
         #region Bloquage
 
-        public void Bloquer(int articleId, int bloqeurId, string motivation)
+        public void Bloquer(int articleId, int bloqeurId, string motivation) // service admin
         {
             _articleRepository.Bloquer(articleId, bloqeurId, motivation);
         }
 
-        public void Debloquer(int articleId, int debloqeurId)
+        public void Debloquer(int articleId, int debloqeurId) // service admin
         {
             _articleRepository.Debloquer(articleId, debloqeurId);
         }
 
-        public bool EstBloquer(int articleId)
+        public bool EstBloquer(int articleId) // service admin
         {
             return _articleRepository.EstBloquer(articleId);
         }

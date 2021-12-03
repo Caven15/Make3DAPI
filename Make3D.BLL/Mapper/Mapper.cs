@@ -1,4 +1,5 @@
-﻿using Make3D.BLL.Models;
+﻿using Make3D.BLL.Interfaces;
+using Make3D.BLL.Models;
 using Make3D.DAL.Data;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace Make3D.BLL.Mapper
 {
     public static class Mapper
     {
+        
+        
         #region Utilisateur
         internal static UtilisateurData BllToDal(this UtilisateurModel model)
         {
@@ -55,9 +58,9 @@ namespace Make3D.BLL.Mapper
             };
         }
 
-        internal static ArticleModel DalToBll(this ArticleData data)
+        internal static ArticleModel DalToBll(this ArticleData data, IUtilisateurService utilisateurService = null)
         {
-            return new ArticleModel()
+            ArticleModel articleModel = new ArticleModel()
             {
                 Id = data.Id,
                 Nom = data.Nom,
@@ -65,8 +68,15 @@ namespace Make3D.BLL.Mapper
                 Id_utilisateur = data.Id_utilisateur,
                 Date_envoi = data.Date_envoi,
                 Date_modif = data.Date_modif
-
             };
+            if(utilisateurService is not null)
+            {
+                // récupération du créateur de l'article
+                UtilisateurModel utilisateurModel = utilisateurService.GetUtilisateurById(data.Id_utilisateur);
+                // récupération du nom et prénom
+                articleModel.NomCreateur = utilisateurModel.Nom + " " + utilisateurModel.Prenom;
+            }
+            return articleModel;
         }
         #endregion
 
@@ -74,7 +84,7 @@ namespace Make3D.BLL.Mapper
 
         internal static CommentaireData BllToDal(this CommentaireModel model)
         {
-            return new CommentaireData()
+           return new CommentaireData()
             {
                 Id = model.Id,
                 Id_article = model.Id_article,
@@ -85,9 +95,9 @@ namespace Make3D.BLL.Mapper
             };
         }
 
-        internal static CommentaireModel DalToBll(this CommentaireData data)
+        internal static CommentaireModel DalToBll(this CommentaireData data, IUtilisateurService utilisateurService = null)
         {
-            return new CommentaireModel()
+            CommentaireModel commentaireData = new CommentaireModel()
             {
                 Id = data.Id,
                 Id_article = data.Id_article,
@@ -96,6 +106,14 @@ namespace Make3D.BLL.Mapper
                 Date_envoi = data.Date_envoi,
                 Date_modif = data.Date_modif
             };
+            if (utilisateurService is not null)
+            {
+                // récupération du créateur de l'article
+                UtilisateurModel utilisateurModel = utilisateurService.GetUtilisateurById(data.Id_utilisateur);
+                // récupération du nom et prénom
+                commentaireData.NomCreateur = utilisateurModel.Nom + " " + utilisateurModel.Prenom;
+            }
+            return commentaireData;
         }
         #endregion
     }

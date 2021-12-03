@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using Tools.Connection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Make3D.API.ChatsHubs;
 
 namespace Make3D.API
 {
@@ -41,8 +42,15 @@ namespace Make3D.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
             services.AddControllers();
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder => {
+                 builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();}));
+
+            services.AddSignalR();
             services.AddSingleton<TokenManager>();
             services.AddSwaggerGen(c =>
             {
@@ -104,10 +112,14 @@ namespace Make3D.API
             // Repositories
             services.AddScoped<IUtilisateurRepository, UtilisateurRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<ICommentaireRepository, CommentaireRepository>();
 
             // Services
             services.AddScoped<IUtilisateurService, UtilisateurService>();
             services.AddScoped<IArticleService, ArticleService>();
+            services.AddScoped<ICommentaireService, CommentaireService>();
+            services.AddScoped<IChatHub, ChatHub>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,14 +127,16 @@ namespace Make3D.API
         {
             // ajout cors permettant n'importe quel site d'accéder à l'API
             app.UseCors("MyPolicy");
+
             /*
-            // ajout d'une origine en indiquant son nom de domaine 
+            // ajout d'une origine en indiquant son nom de domaine
             app.UseCors(options =>
             {
                 options.WithOrigins("http://http://localhost:4200").AllowAnyMethod();
                 // options.WithOrigins("mon autre site...").AllowAnyMethod();
             });
             */
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -140,6 +154,7 @@ namespace Make3D.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
     }

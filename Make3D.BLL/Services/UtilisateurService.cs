@@ -19,19 +19,21 @@ namespace Make3D.BLL.Services
             _utilisateurRepository = utilisatreurRepository;
         }
 
-        public void RegisterUtilisateur(UtilisateurModel model)
+        public void RegisterUtilisateur(UtilisateurModel model) 
         {
             _utilisateurRepository.RegisterUtilisateur(model.BllToDal());
         }
 
-        public UtilisateurModel LoginUtilisateur(string email, string password)
+        public UtilisateurModel LoginUtilisateur(string email, string password) // service admin
         {
             return _utilisateurRepository.LoginUtilisateur(email, password)?.DalToBll();
         }
 
-        public UtilisateurModel GetUtilisateurById(int id)
+        public UtilisateurModel GetUtilisateurById(int id) // service admin
         {
             return _utilisateurRepository.GetUtilisateurById(id).DalToBll();
         }
+
+        // ajout GetAll
     }
 }
