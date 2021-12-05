@@ -67,5 +67,38 @@ namespace Make3D.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPost(nameof(LoginAdmin))]
+        public IActionResult LoginAdmin(UtilisateurLoginForm form)
+        {
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+
+                UtilisateurModel currentuser = _utilisateurService.LoginUtilisateur(form.Email, form.Password);
+                if (currentuser is null) return NotFound("Utilisateur n'existe pas ...");
+                if(!currentuser.IsAdmin) return NotFound("Utilisateur n'est pas admin ...");
+
+                string nom = currentuser.Nom is null ? string.Empty : currentuser.Nom;
+                string prenom = currentuser.Prenom is null ? string.Empty : currentuser.Prenom;
+                string email = currentuser.Email is null ? string.Empty : currentuser.Email;
+                UserWithToken utilisateur = new UserWithToken
+                {
+                    Id = currentuser.Id,
+                    Nom = currentuser.Nom,
+                    Prenom = currentuser.Prenom,
+                    Email = currentuser.Email,
+                    DateNaissance = currentuser.DateNaissance,
+                    Token = _tokenManager.GenerateJWT(currentuser)
+                };
+
+                return Ok(utilisateur);
+            }
+
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

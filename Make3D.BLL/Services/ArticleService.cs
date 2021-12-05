@@ -63,6 +63,11 @@ namespace Make3D.BLL.Services
             _articleRepository.Designaler(articleId, designaleurId);
         }
 
+        public void DesignalerAdmin(int articleId, int designaleurId) // service admin
+        {
+            _articleRepository.DesignalerAdmin(articleId, designaleurId);
+        }
+
         public bool EstSignale(int articleId) // service admin
         {
             return _articleRepository.EstSignale(articleId);

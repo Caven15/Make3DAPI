@@ -21,6 +21,7 @@ using Tools.Connection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Make3D.API.ChatsHubs;
+using Make3D.API.Tools;
 
 namespace Make3D.API
 {
@@ -113,13 +114,17 @@ namespace Make3D.API
             services.AddScoped<IUtilisateurRepository, UtilisateurRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<ICommentaireRepository, CommentaireRepository>();
+            services.AddScoped<IFichierRepository, FichierRepository>();
 
             // Services
             services.AddScoped<IUtilisateurService, UtilisateurService>();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ICommentaireService, CommentaireService>();
-            services.AddScoped<IChatHub, ChatHub>();
+            services.AddScoped<IFichierService, FichierService>();
 
+
+            services.AddScoped<IChatHub, ChatHub>();
+            services.AddScoped<IFileService, FileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -153,10 +153,31 @@ namespace Make3D.API.Controllers
             try
             {
                 int? designaleurId = GetConnectedUserId();
-                if (designaleurId is null) return Unauthorized();// => a activer si on appelle pas authorize ([Authorize("IsConnected")])
+                if (designaleurId is null) return Unauthorized("V");// => a activer si on appelle pas authorize ([Authorize("IsConnected")])
                 if (_articleService.EstSignaleParUserId(id, designaleurId.Value))
                 {
                     _articleService.Designaler(id, designaleurId.Value);
+                    return Ok();
+                }
+                // Si l'utilisateur connecté n'est pas le créateur de l'article
+                return Unauthorized();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("{id}/DesignalerAdmin")]
+        public IActionResult DesignalerAdmin(int id) // Id article
+        {
+            try
+            {
+                int? designaleurId = GetConnectedUserId();
+                if (designaleurId is null) return Unauthorized();// => a activer si on appelle pas authorize ([Authorize("IsConnected")])
+                if (_articleService.EstSignale(id) && IsAdminConnectedUser() is not null && IsAdminConnectedUser().Value)
+                {
+                    _articleService.DesignalerAdmin(id, designaleurId.Value);
                     return Ok();
                 }
                 // Si l'utilisateur connecté n'est pas le créateur de l'article
@@ -220,7 +241,7 @@ namespace Make3D.API.Controllers
                     _articleService.Bloquer(id, bloqeurId.Value, form.Motivation);
                     return Ok();
                 }
-                // Si l'utilisateur connecté n'est pas le créateur de l'article
+                // Si l'utilisateur connecté n'est pas administrateur ou que l'article est déja bloquer
                 return Unauthorized();
             }
             catch (Exception e)

@@ -116,5 +116,28 @@ namespace Make3D.BLL.Mapper
             return commentaireData;
         }
         #endregion
+
+        #region Fichier
+
+        internal static FichierData BllToDal(this FichierModel model)
+        {
+            return new FichierData()
+            {
+                Id = model.Id,
+                Id_article = model.Id_article,
+                Name = model.Name
+            };
+        }
+
+        internal static FichierModel DalToBll(this FichierData data)
+        {
+            return new FichierModel()
+            {
+                Id = data.Id,
+                Id_article = data.Id_article,
+                Name = data.Name
+            };
+        }
+        #endregion
     }
 }

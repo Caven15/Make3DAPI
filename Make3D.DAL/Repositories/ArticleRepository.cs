@@ -84,6 +84,14 @@ namespace Make3D.DAL.Repositories
             _connection.ExecuteNonQuery(command);
         }
 
+        public void DesignalerAdmin(int articleId, int designaleurId)
+        {
+            Command command = new Command("spArticleDesignalerAdmin", true);
+            command.AddParameter("Id_article", articleId);
+            command.AddParameter("Id_utilisateur", designaleurId);
+            _connection.ExecuteNonQuery(command);
+        }
+
         public bool EstSignale(int articleId)
         {
             Command command = new Command("spArticleEstSignale", true);

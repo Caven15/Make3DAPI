@@ -70,6 +70,7 @@
     <Folder Include="Programability\Trigger\Signalement_article" />
     <Folder Include="Programability\Trigger\Utilisateur" />
     <Folder Include="Programability\Procedures\spCommentaire" />
+    <Folder Include="Programability\Procedures\spFichier" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Utilisateur.sql" />
@@ -109,6 +110,11 @@
     <Build Include="Programability\Procedures\spCommentaire\spCommentaireCreate.sql" />
     <Build Include="Programability\Procedures\spCommentaire\spCommentaireUpdate.sql" />
     <Build Include="Programability\Procedures\spCommentaire\spCommentaireDelete.sql" />
+    <Build Include="Programability\Procedures\spArticle\spArticleDesignalerAdmin.sql" />
+    <Build Include="Programability\Procedures\spFichier\spFichierGetAll.sql" />
+    <Build Include="Programability\Procedures\spFichier\spFichierGetByArticleId.sql" />
+    <Build Include="Programability\Procedures\spFichier\spFichierCreate.sql" />
+    <Build Include="Programability\Procedures\spFichier\spFichierGetById.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Programability\Procedures\spArticle\spArticleBloquer.sql" />

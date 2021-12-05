@@ -29,8 +29,9 @@ namespace Make3D.BLL.Interfaces
         bool EstSignaleParUserId(int articleId, int signaleurId);// : vérifier si l'article articleId est signalé par l'utilisateur signaleurId
                                                                  // SQL ==> SELECT COUNT(*) FROM [Signalement_article] WHERE Id_article = @Id_article AND Id_utilisateur = @Id_utilisateur;
 
+        void Designaler(int articleId, int designaleurId);// : supprimer le signalement d'un article par le créateur du signalement 
         // Les opérations d'administrations
-        void Designaler(int articleId, int designaleurId);// : supprimer le signalement d'un article
+        void DesignalerAdmin(int articleId, int designaleurId);// : supprimer tout les signalement d'un article
 
         void Bloquer(int articleId, int bloqeurId, string motivation);// : bloquer un article
 

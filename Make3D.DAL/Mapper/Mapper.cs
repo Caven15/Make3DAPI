@@ -75,5 +75,18 @@ namespace Make3D.DAL.Mapper
         }
 
         #endregion
+
+        #region Fichier
+
+        internal static FichierData DbToFichier(this IDataRecord record)
+        {
+            return new FichierData()
+            {
+                Id = (int)record["Id"],
+                Name = (string)record["Name"],
+                Id_article = (int)record["Id_article"]
+            };
+        }
+        #endregion
     }
 }
