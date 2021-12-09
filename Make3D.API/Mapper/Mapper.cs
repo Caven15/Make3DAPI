@@ -1,6 +1,7 @@
 ﻿using Make3D.API.Models;
 using Make3D.API.Models.Forms.Article;
 using Make3D.API.Models.Forms.Utilisateur;
+using Make3D.BLL.Interfaces;
 using Make3D.BLL.Models;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,29 @@ namespace Make3D.API.Mapper
         #endregion
 
         #region Article
+
+        internal static ArticleAPIModel BllToApî(this ArticleModel model, IFichierService fichierService)
+        {
+            ArticleAPIModel articleAPIModel = new ArticleAPIModel()
+            {
+                Id = model.Id,
+                Nom = model.Nom,
+                Description = model.Description,
+                Id_utilisateur = model.Id_utilisateur,
+                Date_envoi = model.Date_envoi,
+                Date_modif = model.Date_modif,
+                NomCreateur = model.NomCreateur
+            };
+
+            // récupération de la liste des fichiers de l'article
+            IEnumerable<FichierModel> fichierModels = fichierService.GetByArticleId(articleAPIModel.Id);
+            // récupération de la liste des ID des fichiers de l'article
+            IEnumerable<int> id_fichiers = fichierModels?.Select(f => f.Id);
+            // assignation de la liste des ID des fichiers de l'article
+            articleAPIModel.Id_fichiers = id_fichiers;
+
+            return articleAPIModel;
+        }
 
         #endregion
     }

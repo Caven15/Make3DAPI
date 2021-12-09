@@ -20,6 +20,7 @@ namespace Make3D.API.Controllers
         private readonly IFileService _fileService;
         private readonly IFichierService _fichierService;
         private readonly IArticleService _articleService;
+        private readonly string _imageDirectory = "images";
 
         public FichierController(IFileService fileService, IFichierService fichierService, IArticleService articleService)
         {
@@ -66,7 +67,7 @@ namespace Make3D.API.Controllers
                 ArticleModel articleModel = _articleService.GetById(articleId);
                 if(articleModel.Id_utilisateur != userid) return Unauthorized();//
                 //
-                _fileService.UploadFile(formFiles, "images", articleId, _fichierService);
+                _fileService.UploadFile(formFiles, _imageDirectory, articleId, _fichierService);
                 return Ok(new { formFiles.Count, Size = _fileService.SizeConverter(formFiles.Sum(f => f.Length)) });
             }
             catch (Exception e)
@@ -75,5 +76,61 @@ namespace Make3D.API.Controllers
             }
 
         }
+
+        #region Téléchargement de fichiers
+
+        [HttpGet("Telechargement/{id}")]
+        public IActionResult Telechargement(int id)// id => ID du fichier dans la DB
+        {
+            try
+            {
+                FichierModel fichierModel = _fichierService.GetById(id);
+                if(fichierModel is not null)
+                {
+                    string filename = fichierModel.Name;
+                    byte[] byteFile = _fileService.DownloadFile(_imageDirectory, filename);
+                    if(byteFile is not null)
+                    {
+                        return Ok(File(byteFile, "image/jpeg", filename));
+                    }
+
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest("Not found");
+        }
+
+        [HttpPost("Telechargements")]
+        public IActionResult Telechargement(int[] id_fichiers)// ids => liste des ID des fichier dans la DB qu'on veut récupérer
+        {
+            try
+            {
+                List<FileContentResult> files = new List<FileContentResult>();
+                foreach(int id_fichier in id_fichiers)
+                {
+                    FichierModel fichierModel = _fichierService.GetById(id_fichier);
+                    if (fichierModel is not null)
+                    {
+                        string filename = fichierModel.Name;
+                        byte[] byteFile = _fileService.DownloadFile(_imageDirectory, filename);
+                        if (byteFile is not null)
+                        {
+                            files.Add(File(byteFile, "image/jpeg", filename));
+                        }
+
+                    }
+                }
+                return Ok(files);
+            }
+            catch (Exception e)
+            {
+
+            }
+            return BadRequest("Not found");
+        }
+        #endregion
     }
 }

@@ -31,6 +31,7 @@ namespace Make3D.API.ChatsHubs
             IEnumerable<CommentaireModel> commentaires = _commentaireService.GetAllByArticleId(form.Id_article);
 
             Clients.All.SendAsync("recevoirCommentaires", commentaires, form.Id_article);
+            
         }
 
 

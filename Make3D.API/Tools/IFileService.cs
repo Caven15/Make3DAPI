@@ -6,8 +6,10 @@ namespace Make3D.API.Tools
 {
     public interface IFileService
     {
+        byte[] DownloadFile(string subDirectory, string filename);
         (string fileType, byte[] archiveData, string archiveName) DownloadFiles(string subDirectory);
         string SizeConverter(long bytes);
         void UploadFile(List<IFormFile> files, string subDirectory, int articleId, IFichierService fichierService);
+
     }
 }

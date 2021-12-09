@@ -52,6 +52,29 @@ namespace Make3D.API.Tools
         }
         #endregion
         #region Download File
+        public byte[] DownloadFile(string subDirectory, string filename)
+        {
+            string filePath = Path.Combine(_hostingEnvironment.ContentRootPath, RootDirectory, subDirectory, filename);
+            try
+            {
+                using(FileStream fileStream = new FileStream(filePath, FileMode.Open))
+                {
+                    using(var memoryStream = new MemoryStream())
+                    {
+                        fileStream.CopyTo(memoryStream);
+                        byte[] byteFile = memoryStream.ToArray();
+                        return byteFile;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
+        }
+
+
+
         public (string fileType, byte[] archiveData, string archiveName) DownloadFiles(string subDirectory)
         {
             var zipName = $"archive-{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.zip";

@@ -1,4 +1,5 @@
 ﻿using Make3D.API.Mapper;
+using Make3D.API.Models;
 using Make3D.API.Models.Forms.Article;
 using Make3D.BLL.Interfaces;
 using Make3D.BLL.Models;
@@ -18,10 +19,12 @@ namespace Make3D.API.Controllers
     public class ArticleController : ConnectedController
     {
         private readonly IArticleService _articleService;
+        private readonly IFichierService _fichierService;
 
-        public ArticleController(IArticleService articleService)
+        public ArticleController(IArticleService articleService, IFichierService fichierService)
         {
             _articleService = articleService;
+            _fichierService = fichierService;
         }
 
         #region Récupération
@@ -30,8 +33,21 @@ namespace Make3D.API.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            IEnumerable<ArticleModel> articles = _articleService.GetAll();
-            return Ok(articles);
+            // Récupération de la liste des articles BLL
+            IEnumerable<ArticleModel> articleModels = _articleService.GetAll();
+            if(GetConnectedUserId() is null)
+            {
+                articleModels = articleModels.Where(a => !_articleService.EstBloquer(a.Id));
+            }
+            else if (IsAdminConnectedUser() is not null && !IsAdminConnectedUser().Value)
+            {
+                articleModels = articleModels.Where(a => !(_articleService.EstBloquer(a.Id) && a.Id_utilisateur != GetConnectedUserId().Value));
+            }
+
+            // Transformation du model BLL vers model API grace au Mapper
+            IEnumerable<ArticleAPIModel> articleAPIModels = articleModels.Select(articleModel => articleModel.BllToApî(_fichierService));
+            // Retourner le modèle API
+            return Ok(articleAPIModels);
         }
 
         // Obtenir tous les article créés par l'utilisateur {id}
@@ -39,16 +55,37 @@ namespace Make3D.API.Controllers
         [HttpGet("GetAllByUser/{id}")]
         public IActionResult GetAllByUserId(int id)
         {
-            IEnumerable<ArticleModel> articles = _articleService.GetAllByUserId(id);
-            return Ok(articles);
+            IEnumerable<ArticleModel> articleModels = _articleService.GetAllByUserId(id);
+            if (IsAdminConnectedUser() is not null && !IsAdminConnectedUser().Value)
+            {
+                articleModels = articleModels.Where(a => !(_articleService.EstBloquer(a.Id) && a.Id_utilisateur != GetConnectedUserId().Value));
+            }
+
+            // Transformation du model BLL vers model API grace au Mapper
+            IEnumerable<ArticleAPIModel> articleAPIModels = articleModels.Select(articleModel => articleModel.BllToApî(_fichierService));
+            // Retourner le modèle API
+            return Ok(articleAPIModels);
         }
 
         //
         [HttpGet("{id}/Detail")]
         public IActionResult GetById(int id)
         {
-            ArticleModel article = _articleService.GetById(id);
-            return Ok(article);
+            ArticleModel articleModel = _articleService.GetById(id);
+            if (articleModel is not null // si l'article existe
+                && IsAdminConnectedUser() is not null 
+                && !IsAdminConnectedUser().Value // si l'utilisateur n'est pas administrateur
+                && articleModel.Id_utilisateur != GetConnectedUserId().Value // et si l'utilisateur n'est pas le créateur de l'article
+                && _articleService.EstBloquer(id) // et que l'article est bloqué
+                )
+            {
+                return BadRequest("L'article n'est pas disponible");
+            }
+
+            // Transformation du model BLL vers model API grace au Mapper
+           ArticleAPIModel articleAPIModel = articleModel?.BllToApî(_fichierService);
+            // Retourner le modèle API
+            return Ok(articleAPIModel);
         }
 
         #endregion

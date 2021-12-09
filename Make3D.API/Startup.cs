@@ -43,13 +43,13 @@ namespace Make3D.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
             services.AddCors(o => o.AddPolicy("MyPolicy", builder => {
                  builder.WithOrigins("http://localhost:4200")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();}));
+
+            services.AddControllers();
 
             services.AddSignalR();
             services.AddSingleton<TokenManager>();
